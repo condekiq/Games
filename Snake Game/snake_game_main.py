@@ -1,32 +1,33 @@
 from tkinter import *
 import random
-
 from snake_game_classes import *
 
-def next_turn(inputs, snake, food):
+def next_turn(global_var, snake, food):
     x, y = snake.coordinates[0]
 
-    if inputs.DIRECTION == "up":
-        y -= inputs.GRID_SIZE
-    elif inputs.DIRECTION == "down":
-        y += inputs.GRID_SIZE
-    elif inputs.DIRECTION == "left":
-        x -= inputs.GRID_SIZE
-    elif inputs.DIRECTION == "right":
-        x += inputs.GRID_SIZE
+    if global_var.DIRECTION == "up":
+        y -= global_var.GRID_SIZE
+    elif global_var.DIRECTION == "down":
+        y += global_var.GRID_SIZE
+    elif global_var.DIRECTION == "left":
+        x -= global_var.GRID_SIZE
+    elif global_var.DIRECTION == "right":
+        x += global_var.GRID_SIZE
 
-    if x >= inputs.GAME_WIDTH:
+    # Ciclic condition
+    if x >= global_var.GAME_WIDTH:
         x = 0
     elif x < 0:
-        x = inputs.GAME_WIDTH - inputs.GRID_SIZE
+        x = global_var.GAME_WIDTH - global_var.GRID_SIZE
 
-    if y >= inputs.GAME_HEIGHT:
+    if y >= global_var.GAME_HEIGHT:
         y = 0
     elif y < 0:
-        y = inputs.GAME_HEIGHT - inputs.GRID_SIZE
+        y = global_var.GAME_HEIGHT - global_var.GRID_SIZE
+    #----------
 
     snake.coordinates.insert(0, (x, y))
-    square = canvas.create_rectangle(x, y, x + inputs.GRID_SIZE, y + inputs.GRID_SIZE, fill=snake.color)
+    square = canvas.create_rectangle(x, y, x + global_var.GRID_SIZE, y + global_var.GRID_SIZE, fill=snake.color)
     snake.squares.insert(0, square)
 
     if [x,y] != food.coordinates:
@@ -34,6 +35,8 @@ def next_turn(inputs, snake, food):
         canvas.delete(snake.squares[-1])
         del snake.squares[-1]
     else:
+        inputs.SNAKE_SIZE += 1
+        inputs.SCORE += 1
         del food.coordinates
         canvas.delete(food.squares)
         del food.squares
@@ -41,29 +44,32 @@ def next_turn(inputs, snake, food):
 
     window.after(inputs.SNAKE_SPEED, next_turn, inputs, snake, food)
 
-def change_direction(new_direction, inputs):
-    if new_direction == 'left' and inputs.DIRECTION != 'right':
+def change_direction(new_direction, global_var):
+    if new_direction == 'left' and global_var.DIRECTION != 'right':
         inputs.DIRECTION = new_direction
-    elif new_direction == 'right' and inputs.DIRECTION != 'left':
+    elif new_direction == 'right' and global_var.DIRECTION != 'left':
         inputs.DIRECTION = new_direction
-    elif new_direction == 'up' and inputs.DIRECTION != 'down':
+    elif new_direction == 'up' and global_var.DIRECTION != 'down':
         inputs.DIRECTION = new_direction
-    elif new_direction == 'down' and inputs.DIRECTION != 'up':
+    elif new_direction == 'down' and global_var.DIRECTION != 'up':
         inputs.DIRECTION = new_direction
 
 window = Tk()
 window.title("Snake Game")
 window.resizable(False, False)
 
-inputs = Inputs()
+inputs = GlobalVariables()
+
+window.update()
+
+label = Label(window, text="Score:{}".format(inputs.DIRECTION), font=('consolas', 40))
+label.pack()
 
 canvas = Canvas(window, bg=inputs.BACKGROUND_COLOR, height=inputs.GAME_HEIGHT, width=inputs.GAME_WIDTH)
 canvas.pack()
 
 food = Food(inputs, canvas)
 snake = Snake(inputs, canvas)
-
-window.update()
 
 window.bind('<Left>', lambda event: change_direction('left', inputs))
 window.bind('<Right>', lambda event: change_direction('right', inputs))
