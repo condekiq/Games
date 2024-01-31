@@ -1,6 +1,6 @@
 from tkinter import *
 import random
-from snake_game_classes import *
+import snake_game_classes as sgc
 
 GAME_WIDTH = 500
 GAME_HEIGHT = 500
@@ -17,13 +17,13 @@ window.resizable(False, False)
 canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
 canvas.pack()
 
-snake = Snake()
-food = Food()
+snake = sgc.Snake()
+food = sgc.Food()
 
 direction = 'down'
-window.bind('<Left>', lambda event: change_direction('left'))
-window.bind('<Right>', lambda event: change_direction('right'))
-window.bind('<Up>', lambda event: change_direction('up'))
-window.bind('<Down>', lambda event: change_direction('down'))
+window.bind('<Left>', lambda event: sgc.change_direction('left'))
+window.bind('<Right>', lambda event: sgc.change_direction('right'))
+window.bind('<Up>', lambda event: sgc.change_direction('up'))
+window.bind('<Down>', lambda event: sgc.change_direction('down'))
 
-next_turn(snake, food, PITCH_SIZE, GAME_WIDTH, GAME_HEIGHT, SPEED)
+sgc.next_turn(snake, food, PITCH_SIZE, GAME_WIDTH, GAME_HEIGHT, SPEED)
