@@ -1,8 +1,7 @@
 from tkinter import *
 import random
 
-from snake_game_snake import Snake
-from snake_game_food import Food
+from snake_game_classes import *
 
 GAME_WIDTH = 500
 GAME_HEIGHT = 500
@@ -46,7 +45,7 @@ def next_turn(snake, food):
         del food.coordinates
         canvas.delete(food.squares)
         del food.squares
-        food = Food()
+        food = Food(canvas)
 
     window.after(SNAKE_SPEED, next_turn, snake, food)
 
@@ -70,13 +69,18 @@ window.resizable(False, False)
 canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
 canvas.pack()
 
-snake = Snake(canvas)
 food = Food(canvas)
+snake = Snake(canvas)
 
 direction = 'down'
+
+window.update()
+
 window.bind('<Left>', lambda event: change_direction('left'))
 window.bind('<Right>', lambda event: change_direction('right'))
 window.bind('<Up>', lambda event: change_direction('up'))
 window.bind('<Down>', lambda event: change_direction('down'))
 
 next_turn(snake, food)
+
+window.mainloop()
