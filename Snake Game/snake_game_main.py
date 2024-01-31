@@ -5,7 +5,6 @@ from snake_game_classes import *
 GAME_WIDTH = 500
 GAME_HEIGHT = 500
 PITCH_SIZE = 50
-SNAKE_BODY = 3
 SPEED = 20
 SNAKE_COLOR = "#00FF00"
 FOOD_COLOR = "#FF0000"
@@ -21,14 +20,10 @@ canvas.pack()
 snake = Snake()
 food = Food()
 
-score = 0
-label = Label(window, text="Score:{}".format(score), font=('consolas', 40))
-label.pack()
-
 direction = 'down'
 window.bind('<Left>', lambda event: change_direction('left'))
 window.bind('<Right>', lambda event: change_direction('right'))
 window.bind('<Up>', lambda event: change_direction('up'))
 window.bind('<Down>', lambda event: change_direction('down'))
 
-next_turn(snake, food)
+next_turn(snake, food, PITCH_SIZE, GAME_WIDTH, GAME_HEIGHT, SPEED)

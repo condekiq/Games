@@ -1,24 +1,26 @@
 class Snake:
     def __init__(self):
-        self.body_size = SNAKE_BODY
         self.coordinates = []
         self.squares = []
+        self.color = SNAKE_COLOR
 
-        for i in range(0, SNAKE_BODY):
+        for i in range(0, 3):
             self.coordinates.append([0, i*PITCH_SIZE])
 
         for x, y in self.coordinates:
-            square = canvas.create_rectangle(x, y, x + PITCH_SIZE, y + PITCH_SIZE, fill=SNAKE_COLOR, tag="snake")
+            square = canvas.create_rectangle(x, y, x + PITCH_SIZE, y + PITCH_SIZE, fill=self.color, tag="snake")
             self.squares.append(square)
 
 class Food:
     def __init__(self):
+        self.color = FOOD_COLOR   
+
         x = random.randint(0, int((GAME_WIDTH/PITCH_SIZE)-1)) * PITCH_SIZE
         y = random.randint(0, int((GAME_HEIGHT/PITCH_SIZE)-1)) * PITCH_SIZE
         self.coordinates = [x, y]
-        self.squares = canvas.create_oval(x, y, x + PITCH_SIZE, y + PITCH_SIZE, fill=FOOD_COLOR, tag="food")
+        self.squares = canvas.create_oval(x, y, x + PITCH_SIZE, y + PITCH_SIZE, fill=self.color, tag="food")
 
-def next_turn(snake, food):
+def next_turn(snake, food, PITCH_SIZE, GAME_WIDTH, GAME_HEIGHT, SPEED):
     x, y = snake.coordinates[0]
 
     if direction == "up":
@@ -41,16 +43,10 @@ def next_turn(snake, food):
         y = GAME_HEIGHT - PITCH_SIZE
 
     snake.coordinates.insert(0, (x, y))
-    square = canvas.create_rectangle(x, y, x + PITCH_SIZE, y + PITCH_SIZE, fill=SNAKE_COLOR)
+    square = canvas.create_rectangle(x, y, x + PITCH_SIZE, y + PITCH_SIZE, fill=snake.color)
     snake.squares.insert(0, square)
 
-    if [x,y] == food.coordinates:
-        global score
-        score += 1
-        label.config(text="Score:{}".format(score))
-        canvas.delete("food")
-        food = Food()
-    else:
+    if [x,y] != food.coordinates:
         del snake.coordinates[-1]
         canvas.delete(snake.squares[-1])
         del snake.squares[-1]
