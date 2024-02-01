@@ -39,12 +39,12 @@ def next_turn(snake, food):
                 return True
     else:
         snake.size += 1
-        GlobalVariables.SCORE += 1
+        GlobalVariables.score += 1
         del food.coordinates
         canvas.delete(food.squares)
         del food.squares
         food = Food(canvas)
-        label.config(text="Score: {}".format(GlobalVariables.SCORE))
+        label.config(text="Score: {}".format(GlobalVariables.score))
 
     window.after(snake.speed, next_turn, snake, food)
 
@@ -62,10 +62,10 @@ window = Tk()
 window.title("Snake Game")
 window.resizable(False, False)
 
-label = Label(window, text="Score: {}".format(GlobalVariables.SCORE), font=('consolas', 40))
+label = Label(window, text="Score: {}".format(GlobalVariables.score), font=('consolas', 40))
 label.pack(padx=0, pady=15, side=TOP)
 
-canvas = Canvas(window, bg=GlobalVariables.BACKGROUND_COLOR, height=GlobalVariables.GAME_HEIGHT, width=GlobalVariables.GAME_WIDTH)
+canvas = Canvas(window, bg=GlobalVariables.background_color, height=GlobalVariables.GAME_HEIGHT, width=GlobalVariables.GAME_WIDTH)
 canvas.pack()
 
 food = Food(canvas)

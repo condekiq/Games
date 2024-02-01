@@ -4,8 +4,8 @@ class GlobalVariables:
     GAME_WIDTH = 500
     GAME_HEIGHT = 500
     GRID_SIZE = 50
-    BACKGROUND_COLOR = "#000000"
-    SCORE = 0
+    background_color = "#000000"
+    score = 0
 class Food:
     def __init__(self, canvas):
         self.color = "#FF0000"
