@@ -2,6 +2,8 @@ from tkinter import *
 import random
 from snake_game_classes import *
 
+from PIL import ImageTk, Image
+
 def next_turn(snake, food):
     x, y = snake.coordinates[0]
 
@@ -34,9 +36,8 @@ def next_turn(snake, food):
         del snake.coordinates[-1]
         canvas.delete(snake.squares[-1])
         del snake.squares[-1]
-        for aux in snake.coordinates[1:]:
-            if x==aux[0] and y==aux[1]:
-                return True
+        if (x,y) in snake.coordinates[1:]:
+            return True
     else:
         snake.size += 1
         GlobalVariables.score += 1
@@ -61,6 +62,7 @@ def change_direction(new_direction, snake):
 window = Tk()
 window.title("Snake Game")
 window.resizable(False, False)
+#window.geometry("700x500")
 
 label = Label(window, text="Score: {}".format(GlobalVariables.score), font=('consolas', 40))
 label.pack(padx=0, pady=15, side=TOP)
@@ -81,3 +83,15 @@ window.bind('<Down>', lambda event: change_direction('down', snake))
 next_turn(snake, food)
 
 window.mainloop()
+
+# from tkinter import *
+# from PIL import Image, ImageTk
+# root = Tk()
+# # Create a photoimage object of the image in the path
+# image1 = Image.open("C:\\Users\\conde\\OneDrive\\Documentos\\GitHub\\Games\\Snake Game\\pp.jpg")
+# test = ImageTk.PhotoImage(image1)
+# label1 = Label(image=test)
+# label1.image = test
+# # Position image
+# label1.pack()
+# root.mainloop()
